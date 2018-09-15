@@ -5,13 +5,58 @@ const chalk = require('chalk');
 const fs = require('fs');
 const moment = require('moment');
 require('./util/eventLoader')(client);
-
 var prefix = ayarlar.prefix;
+module.exports.run = async (bot, message, args) => {
+
+
+
+    let youtube = args.slice(0).join('+');
+
+        let link = `https://www.youtube.com/results?search_query=` + youtube;
+        if(!youtube)return message.reply(`Youtubeda Aratmak İStediğini Yazarmısın`)
+        if(!link)return message.reply("Error Hata 404")
+        let embed = new Discord.RichEmbed()
+ 
+         
+     .setColor("RED")
+         
+          .setTimestamp()
+        
+          .addField('Aranıyor:', `${args.slice(0).join(' ')}`)
+
+          .addField("Yazı:", `${args.slice(0).join(' ')}`)
+
+          .addField('Link:', `${link}`)
+         
+          .setFooter("YouTube", message.author.avatarURL);
+          
+              message.channel.send(embed);
+              message.author.send(`YouTube Bulunan ${link} | ${ message.guild.name}`);
+
+        
+    
+}
+
+
+
+exports.conf =
+{
+  aliases: [""]
+}
+
+exports.help =
+{
+    name: 'youtube',
+    description: 'YouTube Search',
+    usage: 'youtube'
+}
+
+
 
 var oyun = [
-        "!yardım !davet",
+        "!yenilikler",
         "HiaxyTv İzliyor",
-        "!yardım Herşey Yakında!"
+        "HiaxyTv İzliyor"
     ];
 
     setInterval(function() {
@@ -93,7 +138,13 @@ client.unload = command => {
   });
 };
 
-
+client.on('message', async msg => {
+  if (msg.content.toLowerCase() === 'swqlkeqwkewqklşeqwlkşeqklş') {
+    await msg.react('🇦');
+    msg.react('🇸');
+    msg.reply('Aleyküm Selam Hoşgeldinwqeqewqewqewqewq!')
+  }
+  });
 
 client.elevation = message => {
   if(!message.guild) {
@@ -110,6 +161,42 @@ var regToken = /[\w\d]{24}\.[\w\d]{6}\.[\w\d-_]{27}/g;
 //   console.log(chalk.bgBlue.green(e.replace(regToken, 'that was redacted')));
 // });
 
+client.on("ready", () => {
+    console.log(`Giriş yapılan bot ${client.user.tag}!`)
+});
+
+
+
+client.on('guildMemberAdd', member => {
+  let guild = member.guild;
+  let joinRole = guild.roles.find('name', 'Üye'); 
+  member.addRole(joinRole); 
+
+  const channel = member.guild.channels.find('name', 'mod-log');
+  if (!channel) return;
+  const embed = new Discord.RichEmbed()
+  .setColor('RANDOM')
+  .setAuthor(member.user.username, member.user.avatarURL)
+  .setThumbnail(member.user.avatarURL)
+  .setTitle('📥 | Sunucuya katıldı!')
+  .setTimestamp()
+  channel.sendEmbed(embed); 
+});
+
+client.on('guildMemberRemove', member => {
+  const channel = member.guild.channels.find('name', 'mod-log');
+  if (!channel) return;
+  const embed = new Discord.RichEmbed()
+  .setColor('RANDOM')
+  .setAuthor(member.user.username, member.user.avatarURL)
+  .setThumbnail(member.user.avatarURL)
+  .setTitle('📤 | Sunucudan ayrıldı')
+  .setTimestamp()
+  channel.sendEmbed(embed); 
+});
+
+
+
 client.on('warn', e => {
   console.log(chalk.bgYellow(e.replace(regToken, 'that was redacted')));
 });
@@ -117,5 +204,10 @@ client.on('warn', e => {
 client.on('error', e => {
   console.log(chalk.bgRed(e.replace(regToken, 'that was redacted')));
 });
+
+client.on("ready", () => {
+    console.log(`Giriş yapılan bot ${client.user.tag}!`)
+});
+
 
 client.login(ayarlar.token);
