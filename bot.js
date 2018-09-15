@@ -8,6 +8,21 @@ require('./util/eventLoader')(client);
 
 var prefix = ayarlar.prefix;
 
+var oyun = [
+        "!yardım !davet",
+        "HiaxyTv İzliyor",
+        "!yardım Herşey Yakında!"
+    ];
+
+    setInterval(function() {
+
+        var random = Math.floor(Math.random()*(oyun.length-0+1)+0);
+
+        client.user.setGame(oyun[random], "https://www.twitch.tv/hiaxy");
+        }, 2 * 2500)
+
+
+
 const log = message => {
   console.log(`[${moment().format('YYYY-MM-DD HH:mm:ss')}] ${message}`);
 };
@@ -78,18 +93,7 @@ client.unload = command => {
   });
 };
 
-  var oyun = [
-        "!yardım",
-        "!yardım Yeni özellikler",
-        "HiaxyTv İzliyor "
-    ];
 
-    setInterval(function() {
-
-        var random = Math.floor(Math.random()*(oyun.length-0+1)+0);
-
-        client.user.setGame(oyun[random], "https://www.twitch.tv/hiaxy");
-        }, 2 * 2500);
 
 client.elevation = message => {
   if(!message.guild) {
@@ -100,37 +104,6 @@ client.elevation = message => {
   if (message.author.id === ayarlar.sahip) permlvl = 4;
   return permlvl;
 };
-
-
-client.on('guildMemberAdd', member => {
-  let guild = member.guild;
-  let joinRole = guild.roles.find('name', 'Üye'); 
-  member.addRole(joinRole); 
-
-  const channel = member.guild.channels.find('name', 'mod-log');
-  if (!channel) return;
-  const embed = new Discord.RichEmbed()
-  .setColor('RANDOM')
-  .setAuthor(member.user.username, member.user.avatarURL)
-  .setThumbnail(member.user.avatarURL)
-  .setTitle('📥 | Sunucuya katıldı!')
-  .setTimestamp()
-  channel.sendEmbed(embed); 
-});
-
-client.on('guildMemberRemove', member => {
-  const channel = member.guild.channels.find('name', 'mod-log');
-  if (!channel) return;
-  const embed = new Discord.RichEmbed()
-  .setColor('RANDOM')
-  .setAuthor(member.user.username, member.user.avatarURL)
-  .setThumbnail(member.user.avatarURL)
-  .setTitle('📤 | Sunucudan ayrıldı')
-  .setTimestamp()
-  channel.sendEmbed(embed); 
-});
-
-
 
 var regToken = /[\w\d]{24}\.[\w\d]{6}\.[\w\d-_]{27}/g;
 // client.on('debug', e => {
