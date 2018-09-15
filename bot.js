@@ -10,7 +10,7 @@ module.exports.run = async (bot, message, args) => {
 
 
 var oyun = [
-        "!yenilikler",
+        "!yardım",
         "HiaxyTv İzliyor",
         "HiaxyTv İzliyor"
     ];
